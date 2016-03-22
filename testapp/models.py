@@ -17,9 +17,20 @@ from sqlalchemy.orm import (
 from zope.sqlalchemy import ZopeTransactionExtension
 from jinja2 import Markup
 import markdown
+from pyramid.security import (
+    Allow,
+    Everyone,
+)
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+
+class Wiki(PersistentMapping):
+    __name__ = None
+    __parent__ = None
+    __acl__ = [(Allow, Everyone, 'view'),
+               (Allow, 'group:omnioptents', 'ominpotent')]
 
 
 def render_markdown(content):

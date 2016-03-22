@@ -5,6 +5,11 @@ from .models import (
     DBSession,
     Base,
 )
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
+from .security import groupfinder
+
+
 
 
 def main(global_config, **settings):
@@ -20,4 +25,9 @@ def main(global_config, **settings):
     config.add_route('new', '/new')
     config.add_route('edit', '/edit/{id:\d+}')
     config.scan()
+    authn_policy = AuthTktAuthenticationPolicy(
+        'sosecret', callback=groupfinder, hashalg='sha512')
+    authz_policy = ACLAuthorizationPolicy()
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
     return config.make_wsgi_app()
