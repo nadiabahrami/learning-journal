@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 """Test file for views."""
-from testapp.views import entry_view 
+from testapp.views import entry_view
 from testapp.views import home_view
 from testapp.models import DBSession, Entry
 from pyramid.testing import DummyRequest
@@ -31,35 +31,22 @@ def test_home_view(dbtransaction, new_model):
     assert dic['entry_list'].all()[0].title == 'jill'
 
 
-def test_home_route(dbtransaction, app):
+def test_login_route(dbtransaction, app):
     """Test home view dictionary title attribute."""
-    response = app.get('/')
-    assert response.status_code == 200
-
-
-def test_new_route(dbtransaction, app):
-    """Test home view dictionary title attribute."""
-    response = app.get('/new')
-    assert response.status_code == 200
-
-
-def test_edit_route(dbtransaction, app, new_model):
-    """Test home view dictionary title attribute."""
-    response = app.get('/edit/{}'.format(new_model.id))
+    response = app.get('/login')
     assert response.status_code == 200
 
 
 def test_entry_route(dbtransaction, app, new_model):
     """Test home view dictionary title attribute."""
-    response = app.get('/entry/{}'.format(new_model.id))
-    assert response.status_code == 200
+    with pytest.raises(AppError):
+        app.get('/entry/{}'.format(new_model.id))
 
 
 def test_bad_route(dbtransaction, app):
     """Test home view dictionary title attribute."""
     with pytest.raises(AppError):
-        response = app.get('/entry/{}'.format('whatever'))
-        assert response.status_code == 404
+        app.get('/entry/{}'.format('whatever'))
 
 
 def test_home_view_sort(dbtransaction, new_model):

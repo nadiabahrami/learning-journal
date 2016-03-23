@@ -3,7 +3,7 @@
     <div class="col-md-10">
         <div class="content">
             <p tal:condition="logged_in" class="pull-right">
-                <a href="${request.application_url}/logout">Logout</a>
+                <a href="{{request.route_url('logout')}}">Logout</a>
             </p>
         </div>
     </div>

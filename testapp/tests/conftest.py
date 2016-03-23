@@ -10,6 +10,7 @@ from pyramid.paster import get_appsettings
 
 # TEST_DATABASE_URL = 'sqlite:////tmp/test_db.sqlite'
 TEST_DATABASE_URL = 'postgres://nadiabahrami:@localhost:5432/testing'
+AUTH_DATA = {'username': 'nadiabahrami', 'password': 'secret'}
 
 
 @pytest.fixture(scope='session')
@@ -81,3 +82,15 @@ def app(config_path, dbtransaction, test_url):
     settings['sqlalchemy.url'] = test_url
     app = main({}, **settings)
     return TestApp(app)
+
+
+@pytest.fixture()
+def auth_env():
+    os.environ['AUTH_PASSWORD'] = 'secret'
+    os.environ['AUTH_USERNAME'] = 'nadiabahrami'
+
+
+@pytest.fixture()
+def authenticated_app(app, auth_env):
+    app.post('/login', AUTH_DATA)
+    return app

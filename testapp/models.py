@@ -7,9 +7,7 @@ from sqlalchemy import (
     Unicode,
     DateTime
 )
-
 from sqlalchemy.ext.declarative import declarative_base
-
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
@@ -20,17 +18,21 @@ import markdown
 from pyramid.security import (
     Allow,
     Everyone,
+    ALL_PERMISSIONS
 )
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class Wiki(PersistentMapping):
-    __name__ = None
-    __parent__ = None
-    __acl__ = [(Allow, Everyone, 'view'),
-               (Allow, 'group:omnioptents', 'ominpotent')]
+class MyRoot(object):
+    __acl__ = [
+        (Allow, Everyone, 'viewer'),
+        (Allow, 'g:omnipotent', ALL_PERMISSIONS)
+    ]
+
+    def __init__(self, request):
+        self.request = request
 
 
 def render_markdown(content):
