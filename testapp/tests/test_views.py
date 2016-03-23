@@ -4,6 +4,8 @@ from testapp.views import entry_view
 from testapp.views import home_view
 from testapp.models import DBSession, Entry
 from pyramid.testing import DummyRequest
+import pytest
+from webtest import AppError
 
 
 def test_entry_view_title(new_model):
@@ -62,6 +64,37 @@ def test_home_view_sort_item2_text(new_model):
     test_request = DummyRequest()
     dic = home_view(test_request)
     assert dic['entry_list'].all()[1].text == 'jello'
+
+
+def test_home_route(dbtransaction, app):
+    """Test home view dictionary title attribute."""
+    response = app.get('/')
+    assert response.status_code == 200
+
+
+def test_new_route(dbtransaction, app):
+    """Test home view dictionary title attribute."""
+    response = app.get('/new')
+    assert response.status_code == 200
+
+
+def test_edit_route(dbtransaction, app, new_model):
+    """Test home view dictionary title attribute."""
+    response = app.get('/edit/{}'.format(new_model.id))
+    assert response.status_code == 200
+
+
+def test_entry_route(dbtransaction, app, new_model):
+    """Test home view dictionary title attribute."""
+    response = app.get('/entry/{}'.format(new_model.id))
+    assert response.status_code == 200
+
+
+def test_bad_route(dbtransaction, app):
+    """Test home view dictionary title attribute."""
+    with pytest.raises(AppError):
+        response = app.get('/entry/{}'.format('whatever'))
+        assert response.status_code == 404
 
 
 def test_home_view_sort_item1_title(new_model):

@@ -1,28 +1,31 @@
+"""Database Entry model defined."""
 import datetime
 from sqlalchemy import (
     Column,
-    String,
-    Index,
     Integer,
-    Text,
-    Time,
     UnicodeText,
     Unicode,
-    Unicode,
     DateTime
-    )
+)
 
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
-    )
-
+)
 from zope.sqlalchemy import ZopeTransactionExtension
+from jinja2 import Markup
+import markdown
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+
+def render_markdown(content):
+    """Render the fancy markdown for code in text box."""
+    fancy_box = Markup(markdown.markdown(content))
+    return fancy_box
 
 
 class Entry(Base):
@@ -31,6 +34,8 @@ class Entry(Base):
     title = Column(Unicode(128), unique=True)
     text = Column(UnicodeText)
     created = Column(DateTime, default=datetime.datetime.utcnow)
-    
-Index('my_index', Entry.title, unique=True, mysql_length=255)
 
+    @property
+    def rendered_text(self):
+        """Render markdown when needed."""
+        return render_markdown(self.text)
