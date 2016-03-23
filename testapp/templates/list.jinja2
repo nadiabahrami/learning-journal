@@ -1,0 +1,10 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <ul>List of Entries
+        {% for entry in entry_list %}
+        <li>
+            <a href='{{request.route_url('entry', id=entry.id)}}'> {{ entry.title }}: {{ entry.created }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

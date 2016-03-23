@@ -2,10 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.DS_Store
 # C extensions
 *.so
 .DS_Store
+testapp/scripts/__pycache__/__init__.cpython-35.pyc
+testapp/scripts/__pycache__/initializedb.cpython-35.pyc
 # Distribution / packaging
 .Python
 env/
@@ -17,7 +19,7 @@ eggs/
 .eggs/
 lib/
 lib/python3.5/
-lib64/
+lib64
 parts/
 sdist/
 share/

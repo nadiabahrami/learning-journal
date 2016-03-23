@@ -8,17 +8,18 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'pyramid',
-    'pyramid_chameleon',
+    'pyramid_jinja2',
     'pyramid_debugtoolbar',
     'pyramid_tm',
     'SQLAlchemy',
     'transaction',
     'zope.sqlalchemy',
+    'WTForms',
     'waitress',
     'psycopg2',
     ]
 
-tests_require = ['pytest', 'pytest-watch', 'tox']
+tests_require = ['pytest', 'pytest-watch', 'tox', 'webtest', 'pytest-cov']
 dev_requires = ['ipython', 'pyramid_ipython']
 
 setup(name='testapp',
