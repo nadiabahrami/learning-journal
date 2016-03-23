@@ -6,11 +6,11 @@ TEST_DATABASE_URL = 'postgres://nadiabahrami:@localhost:5432/testing'
 AUTH_DATA = {'username': 'nadiabahrami', 'password': 'secret'}
 
 
-def test_password_exist(app):
+def test_password_exist(authenticated_app):
     assert os.environ.get('AUTH_PASSWORD', None) is not None
 
 
-def test_username_exist(app):
+def test_username_exist(authenticated_app):
     assert os.environ.get('AUTH_USERNAME', None) is not None
 
 
