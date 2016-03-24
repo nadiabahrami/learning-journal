@@ -14,12 +14,11 @@
         <nav>
             <ul>
                 <li class="tab"><a href="/home">HOME</a></li>
-            {% if request.has_permission('viewer') %}
-                <li class="tab"><a href="/">LOG IN</a></li>
-            {%endif%}
             {% if request.has_permission('omnipotent') %}
                 <li class="tab"><a href="/new">NEW ENTRY</a></li>
                 <li class="tab"><a href="{{request.route_url('logout')}}">LOG OUT</a></li>
+            {%else%}
+                <li class="tab"><a href="/">LOG IN</a></li>
             {%endif%}
         </nav>
         {% block content %}
