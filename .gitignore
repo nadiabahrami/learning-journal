@@ -24,6 +24,7 @@ parts/
 sdist/
 share/
 var/
+secret.sh
 *.sh
 *.egg-info/
 .installed.cfg
