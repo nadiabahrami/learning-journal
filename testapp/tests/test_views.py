@@ -41,8 +41,14 @@ def test_home_view_list_title(new_model):
 
 def test_login_route(dbtransaction, app):
     """Test home view dictionary title attribute."""
-    response = app.get('/login')
+    response = app.get('/')
     assert response.status_code == 200
+
+
+def test_logout_route(dbtransaction, app):
+    """Test home view dictionary title attribute."""
+    response = app.get('/logout')
+    assert response.status_code == 302
 
 
 def test_home_view_list_text(new_model):
@@ -72,19 +78,19 @@ def test_home_view_sort_item2_text(new_model):
     assert dic['entry_list'].all()[1].text == 'jello'
 
 
-def test_home_route(dbtransaction, app):
+def test_home_route(dbtransaction, authenticated_app):
     """Test home route status code."""
-    response = app.get('/')
+    response = authenticated_app.get('/home')
     assert response.status_code == 200
 
 
-def test_new_route(dbtransaction, app):
+def test_new_route(dbtransaction, authenticated_app):
     """Test new route status code."""
-    response = app.get('/new')
+    response = authenticated_app.get('/new')
     assert response.status_code == 200
 
 
-def test_new_post(dbtransaction, app):
+def test_new_post(dbtransaction, authenticated_app):
     """Test that a new post is created."""
     db_rows = DBSession.query(Entry).filter(
         Entry.title == 'Testing' and Entry.text == 'Testing')
@@ -93,7 +99,7 @@ def test_new_post(dbtransaction, app):
         'title': 'Testing',
         'text': 'Testing'
     }
-    app.post('/new', params=params, status='3*')
+    authenticated_app.post('/new', params=params, status='3*')
     db_rows = DBSession.query(Entry).filter(
         Entry.title == 'Testing' and Entry.text == 'Testing')
     assert db_rows.count() == 1
@@ -142,13 +148,14 @@ def test_new_post_over_max_title_length(dbtransaction, app):
         app.post('/new', params=params, status='3*')
 
 
-def test_edit_entry(dbtransaction, app, new_model):
+def test_edit_entry(dbtransaction, authenticated_app, new_model):
     """Test that a post can be edited."""
     params = {
         'title': 'T' + new_model.title,
         'text': 'T' + new_model.text
     }
-    app.post('/edit/{}'.format(new_model.id), params=params, status='3*')
+    authenticated_app.post('/edit/{}'.format(new_model.id),
+                           params=params, status='3*')
     db_rows = DBSession.query(Entry).filter(
         Entry.title == 'T' + new_model.title and Entry.text == 'T' + new_model.text)
     assert db_rows.count() == 1
@@ -174,9 +181,9 @@ def test_edit_entry_min_text_len(dbtransaction, app, new_model):
         app.post('/edit/{}'.format(new_model.id), params=params, status='3*')
 
 
-def test_edit_route(dbtransaction, app, new_model):
+def test_edit_route(dbtransaction, authenticated_app, new_model):
     """Test edit route response status."""
-    response = app.get('/edit/{}'.format(new_model.id))
+    response = authenticated_app.get('/edit/{}'.format(new_model.id))
     assert response.status_code == 200
 
 

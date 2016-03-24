@@ -92,5 +92,5 @@ def auth_env():
 
 @pytest.fixture()
 def authenticated_app(app, auth_env):
-    app.post('/login', AUTH_DATA)
+    app.post('/', AUTH_DATA)
     return app

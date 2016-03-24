@@ -3,7 +3,7 @@ from .models import (
     DBSession,
     Entry,
 )
-from pyramid.httpexceptions import HTTPFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPFound
 from testapp.formclass import EntryForm
 from pyramid.security import (
     remember,
@@ -67,7 +67,7 @@ def login(request):
         password = request.params.get('password')
         if check_pw(password):
             headers = remember(request, username)
-            return HTTPFound('/', headers=headers)
+            return HTTPFound('/home', headers=headers)
     return {}
 
 

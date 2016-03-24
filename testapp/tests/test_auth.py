@@ -27,34 +27,45 @@ def test_check_pw_fails(auth_env):
 
 
 def test_get_login_view(app):
-    response = app.get('/login')
+    response = app.get('/')
     assert response.status_code == 200
 
 
 def test_post_login_success(app):
-    response = app.post('/login', AUTH_DATA)
+    response = app.post('/', AUTH_DATA)
     assert response.status_code == 302
 
 
 def test_post_login_bad_password(app):
     data = {'username': 'nadiabahrami', 'password': 'fails'}
-    response = app.post('/login', data)
+    response = app.post('/', data)
     assert response.status_code == 200
 
 
 def test_post_login_success_correct_reroute(app):
-    response = app.post('/login', AUTH_DATA)
+    response = app.post('/', AUTH_DATA)
     headers = response.headers
     domain = 'http://localhost'
     actual_path = headers.get('Location', "")[len(domain):]
-    assert actual_path == '/'
+    assert actual_path == '/home'
 
 
 def test_post_login_success_auth_tkt_present(app, auth_env):
-    response = app.post('/login', AUTH_DATA)
+    response = app.post('/', AUTH_DATA)
     headers = response.headers
     cookie_set = headers.getall('Set-Cookie')
     assert cookie_set
     for cookie in cookie_set:
         if cookie.startswith('auth_tkt'):
             break
+
+
+def test_post_logout_success_auth_tkt_gone(app, auth_env):
+    response = app.post('/logout', AUTH_DATA)
+    headers = response.headers
+    cookie_set = headers.getall('Set-Cookie')
+    assert cookie_set
+    for cookie in cookie_set:
+        if cookie.startswith('auth_tkt'):
+            hold = cookie.split(';')
+    assert hold[0] == 'auth_tkt='
