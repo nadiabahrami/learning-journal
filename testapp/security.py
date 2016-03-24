@@ -19,12 +19,12 @@ def groupfinder(userid, request):
         return USERS.get(userid, [])
 
 
-def myview(request):  # session
-    session = request.session
-    if 'abc' in session:
-        session['fred'] = 'yes'
-    session['abc'] = '123'
-    if 'fred' in session:
-        return Response('Fred was in the session')
-    else:
-        return Response('Fred was not in the session')
+# def myview(request):  # session
+#     session = request.session
+#     if 'abc' in session:
+#         session['fred'] = 'yes'
+#     session['abc'] = '123'
+#     if 'fred' in session:
+#         return Response('Fred was in the session')
+#     else:
+#         return Response('Fred was not in the session')

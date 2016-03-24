@@ -189,8 +189,8 @@ def test_edit_route(dbtransaction, authenticated_app, new_model):
 
 def test_entry_route(dbtransaction, app, new_model):
     """Test home view dictionary title attribute."""
-    with pytest.raises(AppError):
-        app.get('/entry/{}'.format(new_model.id))
+    response = app.get('/entry/{}'.format(new_model.id))
+    assert response.status_code == 200
 
 
 def test_entry_route_with_auth(authenticated_app, new_model):
