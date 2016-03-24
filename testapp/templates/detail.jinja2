@@ -1,15 +1,13 @@
 {% extends "base.jinja2" %}
 {%block content%}
-    <div class="col-md-10">
-        <div class="content">
-            <p tal:condition="logged_in" class="pull-right">
-                <a href="{{request.route_url('logout')}}">Logout</a>
-            </p>
-        </div>
-    </div>
     <h1>{{single_entry.title}}</h1>
     <h3>{{single_entry.created}}</h3>
     <p>{{single_entry.rendered_text}}</p>
-    <a href="{{request.route_url('edit', id=single_entry.id)}}">EDIT</a>
-    <a href="/home">HOME</a>
+    {% if request.has_permission('omnipotent') %}
+        <nav>
+            <ul>    
+                <li><a href="{{request.route_url('edit', id=single_entry.id)}}">EDIT</a></li>
+            </ul>
+        </nav>
+    {%endif%}
 {%endblock content%}

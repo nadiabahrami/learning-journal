@@ -9,6 +9,9 @@ from testapp.security import groupfinder
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from testapp.models import MyRoot
+from pyramid.session import SignedCookieSessionFactory  # session
+
+sesh_factory = SignedCookieSessionFactory('seekrit')  # session
 
 
 def main(global_config, **settings):
@@ -24,6 +27,7 @@ def main(global_config, **settings):
     )
     config.include('pyramid_jinja2')
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.set_session_factory(sesh_factory)  # session
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
     config.add_route('home', '/home')

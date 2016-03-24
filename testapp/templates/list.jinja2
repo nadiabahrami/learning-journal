@@ -1,7 +1,7 @@
 {% extends "base.jinja2" %}
 {% block content %}
-       <a href="{{request.route_url('logout')}}">Logout</a>
-    <ul>List of Entries
+    <h1>List of Entries</h1>
+    <ul>
         {% for entry in entry_list %}
         <li>
             <a href='{{request.route_url('entry', id=entry.id)}}'> {{ entry.title }}: {{ entry.created }}</a>
