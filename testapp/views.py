@@ -45,7 +45,7 @@ def edit_entry(request):
 @view_config(route_name='home', renderer='templates/list.jinja2',
              permission='omnipotent')
 def home_view(request):
-    """Render home page with database list."""
+    """Render home page with database clickable list."""
     entry_list = DBSession.query(Entry).order_by(Entry.id.desc())
     return {'entry_list': entry_list}
 
