@@ -69,7 +69,7 @@ def login(request):
         password = request.params.get('password', '')
         if check_pw(password):
             headers = remember(request, username)
-            token = request.session.new_csrf_token()  # CSRF
+            # token = request.session.new_csrf_token()  # CSRF
             return HTTPFound('/home', headers=headers)
     return {}
 
