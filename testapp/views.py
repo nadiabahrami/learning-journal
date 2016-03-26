@@ -65,8 +65,8 @@ def entry_view(request):
 def login(request):
     """Render lgin view."""
     if request.method == 'POST':
-        username = request.params.get('username')
-        password = request.params.get('password')
+        username = request.params.get('username', '')
+        password = request.params.get('password', '')
         if check_pw(password):
             headers = remember(request, username)
             token = request.session.new_csrf_token()  # CSRF
