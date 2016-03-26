@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href= "../static/normalize.css">
+        <link href='https://fonts.googleapis.com/css?family=Overlock+SC' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href= "../static/style.css">
+        <title>Learning Journal</title>
+    </head>
+    <body>
+        <header id="top">
+            <h1>Py Learning Journal</h1>
+        </header>
+        <nav>
+            <ul>
+                <li class="tab"><a href="/home">HOME</a></li>
+            {% if request.has_permission('omnipotent') %}
+                <li class="tab"><a href="/new">NEW ENTRY</a></li>
+                <li class="tab"><a href="{{request.route_url('logout')}}">LOG OUT</a></li>
+            {%else%}
+                <li class="tab"><a href="/">LOG IN</a></li>
+            {%endif%}
+        </nav>
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>

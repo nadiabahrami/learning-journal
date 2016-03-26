@@ -2,10 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.DS_Store
 # C extensions
 *.so
-
+.DS_Store
+testapp/scripts/__pycache__/__init__.cpython-35.pyc
+testapp/scripts/__pycache__/initializedb.cpython-35.pyc
 # Distribution / packaging
 .Python
 env/
@@ -16,24 +18,27 @@ downloads/
 eggs/
 .eggs/
 lib/
-lib64/
+lib/python3.5/
+lib64
 parts/
 sdist/
+share/
 var/
+secret.sh
+*.sh
 *.egg-info/
 .installed.cfg
 *.egg
-
+bin/
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
+pip-selfcheck.json
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
 # Unit test / coverage reports
 htmlcov/
 .tox/
